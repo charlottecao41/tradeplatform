@@ -1,5 +1,8 @@
 # Quickstart
+```bash
+cd trade_platform
 python test.py
+```
 
 # Usage
 
