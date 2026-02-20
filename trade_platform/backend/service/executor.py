@@ -2,17 +2,17 @@ from datetime import datetime, timezone
 import pandas as pd
 
 class Executor:
-    def __init__(self, time_zone: timezone, risk: float = 100000, stop_distance = 14) -> void:
+    def __init__(self, time_zone: timezone, risk: float = 100000, stop_distance = 14) -> None:
         self.buy_data = pd.DataFrame()
         self.tz = time_zone
         self.risk = risk
         self.stop_distance = stop_distance
 
-    def receive_buy(self, price: float, time: datetime, volume: int, ticker: str) -> void:
+    def receive_buy(self, price: float, time: datetime, volume: int, ticker: str) -> None:
         entry = pd.DataFrame([{'price': price, 'time': time.astimezone(self.tz), 'volume': volume, 'ticker': ticker}])
         self.buy_data = pd.concat([self.buy_data, entry], ignore_index=True)
 
-    def sma(self, data: pd.DataFrame, day: int = 10) -> price:
+    def sma(self, data: pd.DataFrame, day: int = 10) -> float:
         return data.sort_index().tail(day)['close'].mean()
 
     def risk_warn(self, price: float, volume: int, buy_price: float) -> bool:
@@ -42,7 +42,7 @@ class Executor:
 
         return False
 
-    def check_for_ticker(self, price: float, data: pd.DataFrame, ticker: str) -> void:
+    def check_for_ticker(self, price: float, data: pd.DataFrame, ticker: str) -> None:
         if len(self.buy_data)==0:
             return
         to_check = self.buy_data[self.buy_data['ticker'] == ticker]
@@ -56,7 +56,6 @@ class Executor:
 
 if  __name__ == "__main__":
     from backend.api.data_fetcher import DataFetcher
-    from datetime import timedelta
     data_fetcher = DataFetcher()
     local = datetime.now(timezone.utc).astimezone().tzinfo
     executor = Executor(local)

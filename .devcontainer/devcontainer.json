@@ -1,0 +1,11 @@
+{
+  "name": "tradeplatform",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "runArgs": [
+    // https://github.com/docker/for-linux/issues/264#issuecomment-965465879
+    "--add-host=host.docker.internal:host-gateway"
+  ],
+  "remoteUser": "vscode"
+}

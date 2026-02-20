@@ -1,5 +1,6 @@
+import pandas as pd
 class Signaller:
-    def __init__(self, period : int = 63) -> void:
+    def __init__(self, period : int = 63) -> None:
         self.period = period
 
     def riser(self, price: float, data: pd.DataFrame, increase_percentage: float = 1.3) -> bool:

@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 
 class DataFetcher:
-    def __init__(self, api_key: str="demo") -> void:
+    def __init__(self, api_key: str="demo") -> None:
         self.api = api_key
 
 

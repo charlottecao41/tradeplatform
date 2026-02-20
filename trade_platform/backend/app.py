@@ -7,7 +7,7 @@ from backend.service.executor import Executor
 
 class App:
 
-    def __init__(self, tickers: []=['IBM'], api_key: str="demo", time_zone: timezone=datetime.now(timezone.utc).astimezone().tzinfo) -> void:
+    def __init__(self, tickers: list[str]=['IBM'], api_key: str="demo", time_zone: timezone=datetime.now(timezone.utc).astimezone().tzinfo) -> None:
         self.data_fetcher = DataFetcher(api_key)
         self.screener = Screener()
         self.executor = Executor(time_zone)
@@ -17,7 +17,7 @@ class App:
         for ticker in tickers:
             self.cached_data.update({ticker: None})
 
-    def respond_to_price(self, price: float, ticker: str="IBM") -> void:
+    def respond_to_price(self, price: float, ticker: str="IBM") -> None:
         if self.screener.liquidity_filter(price, self.cached_data[ticker]) and self.screener.trend_filter(price, self.cached_data[ticker]):
                 if self.signaller.riser(price, self.cached_data[ticker]) and self.signaller.tread(price, self.cached_data[ticker]) and self.signaller.trigger(price,self.cached_data[ticker]):
                     volume = int(input("Volume of Buy"))
@@ -27,7 +27,7 @@ class App:
 
         self.executor.check_for_ticker(price,self.cached_data[ticker],ticker)
 
-    def run_once(self):
+    def run_once(self) -> None:
         for ticker in self.tickers:
             if self.cached_data[ticker] is None:
                 self.cached_data[ticker] = self.data_fetcher.get_data(ticker)
@@ -37,18 +37,18 @@ class App:
             self.respond_to_price(price, ticker)
 
 
-    def set_historical():
+    def set_historical(self) -> None:
         for ticker in self.tickers:
             self.cached_data[ticker] = self.data_fetcher.get_data(ticker)
         print("Setting historical data...")
 
-    def run(self, interval: int = 5):
+    def run(self, interval: int = 5) -> None:
         schedule.every().day.at("00:00").do(self.set_historical)
         schedule.every(interval).minutes.do(self.run_once)
         while True:
             schedule.run_pending()
 
-    def mock_run_once(self):
+    def mock_run_once(self) -> None:
         price = self.data_fetcher.get_current_price()
         data = self.data_fetcher.get_data()
         print("screener liquidity response: ", self.screener.liquidity_filter(price, data))

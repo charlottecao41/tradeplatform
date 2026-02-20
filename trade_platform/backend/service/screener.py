@@ -1,11 +1,11 @@
 import pandas as pd
 
 class Screener:
-    def __init__(self, period : int = 50) -> void:
+    def __init__(self, period : int = 50) -> None:
         self.period = period
         return
 
-    def set_data(self, data: pd.Dataframe) -> void:
+    def set_data(self, data: pd.DataFrame) -> None:
         self.data = data
 
     def liquidity_filter(self, price: float, data: pd.DataFrame, price_threshold:float = 3.00, average_volume:float = 300000 ) -> bool:
